@@ -50,6 +50,7 @@ import Profile from '../screen/App/Profile';
 import SemsterStudentCredits from '../screen/App/SemsterStudentCredits';
 
 import CategoryCredit from '../screen/App/CategoryCredit';
+import ExamApplicationDetails from '../screen/App/ExamApplicationDetails';
 import { Constants } from '../constants/constants';
 
 const ExaminationStack = createStackNavigator();
@@ -287,6 +288,12 @@ export const DashboardStack = () => {
           name={AppConfig.SCREEN.SEMESTER_CREDITS_SCREEN}
           options={{ headerShown: false }}
           component={SemsterStudentCredits}
+        />
+
+      <Stack.Screen
+          name={AppConfig.SCREEN.EXAM_APPLICATION_DEATILS_SCREEN}
+          options={{ headerShown: false }}
+          component={ExamApplicationDetails}
         />
 
         <Stack.Screen

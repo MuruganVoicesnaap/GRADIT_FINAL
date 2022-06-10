@@ -89,6 +89,9 @@ const Login = props => {
   };
 
   useEffect(() => {
+
+ 
+
     AsyncStorage.getItem('FirstLogin').then(res => {
       if (res) {
         // console.log(res);
@@ -97,13 +100,19 @@ const Login = props => {
         // console.log('else');
         AsyncStorage.getItem('BaseUrl').then(respo => {
           fetch(
-            `${respo}api/AppDetailsBal/VersionCheck?versionID=${appCurrentVersionForApi}`,
+            AppConfig.API_URL + 'VersionCheck'+'?versionID='+appCurrentVersionForApi+"&device_type="+Platform.OS
           )
-            .then(response => response.json())
+            .then(response => {
+              console.log("URL",response.status +"  : "+response.url)
+                  return response.json();
+          }
+            )
             .then(json => {
+              console.log("versionCheck_date",json.data[0])
+
               setData(json.data[0]);
               openAlert();
-            })
+            }) 
             .catch(error => console.error(error));
         });
       }

@@ -24,6 +24,7 @@ import AssignmentImage from './images/Assignment.png';
 import GraditNotification from './images/Gradit-Notification.png';
 import Sem_credits from './images/semester_credits.png';
 import Category_credits from './images/category_credits.png';
+import Exam_Application_Details from './images/exam_app_deatils.png';
 
 
 import Credits from './images/Credits.png';
@@ -56,4 +57,5 @@ export const IMAGES = {
   Credits,
   Sem_credits,
   Category_credits,
+  Exam_Application_Details,
 };

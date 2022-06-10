@@ -232,10 +232,16 @@ const Home = ({
     setLoadTime(true);
     fetch(
     //  `http://106.51.127.215:8090/api/AppDetailsBal/VersionCheck?versionID=${appCurrentVersionForApi}`,
-      AppConfig.API_URL + 'VersionCheck'+'?versionID='+appCurrentVersionForApi
+      AppConfig.API_URL + 'VersionCheck'+'?versionID='+appCurrentVersionForApi+"&device_type="+Platform.OS
     )
-      .then(response => response.json())
+      .then(response => {
+        console.log("URL",response.status +"  : "+response.url)
+            return response.json();
+      }
+      )
       .then(json => {
+
+        console.log("versionCheck_date",json.data[0])
         setData(json.data[0]);
         setLoadTime(false);
       })

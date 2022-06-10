@@ -169,6 +169,18 @@ const getTabLists = list => {
           order,
         };
 
+        case 'Exam Application Details':
+          return {
+            name: 'Exam Application Details',
+            icon: IMAGES.Exam_Application_Details,
+            iconColor: '',
+            page: AppConfig.SCREEN.EXAM_APPLICATION_DEATILS_SCREEN,
+            style: {width: 25, height: 25,alignSelf:'center'
+  ,            },
+            id,
+            order,
+          };
+
         case 'Sem Credit Points':
         return {
           name: 'Sem Credit Points',
@@ -379,6 +391,7 @@ const styles = StyleSheet.create({
     color: Constants.WHITE_COLOR,
     marginTop: 4,
     alignSelf: 'center',
+    textAlign:'center',
   },
   iconContainer: {
     marginBottom: 15,

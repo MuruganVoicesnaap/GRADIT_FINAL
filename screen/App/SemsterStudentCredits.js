@@ -226,6 +226,7 @@ const SemesterStudentCredits = ({ navigation, memberid, getSemester, getCreditLi
 
           const { Message, Status, data } = response;
           if (Status === 1) {
+            tableSemdata =[]
             console.log("SingleSemResponse", data)
             // setSingleSemData(data)
             setsemesterCreditData(data)
@@ -245,10 +246,11 @@ const SemesterStudentCredits = ({ navigation, memberid, getSemester, getCreditLi
               for (let j = 0; CreditDetails.length > 0; j++) {
                 newArray = CreditDetails.splice(0, CreditDetails.length)
                 tableSemdata.push(newArray)
-                setTableData(tableSemdata)
-
               }
             }
+            
+            setTableData(tableSemdata)
+
 
           }
           else {

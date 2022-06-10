@@ -93,6 +93,9 @@ const AppConfig = {
     GET_CATEGORY_LIST : 'getcategorylistforclgeid',
     GET_CATEGORY_STUDENT_CREDIT : 'categorywisestudentcreditdetails',
 
+    GET_EXAM_APPLICATION_DETAILS : 'getExamApplicationDetails',
+
+
   },
   SCREEN: {
     NOTIFICATION: 'Notification',
@@ -126,9 +129,7 @@ const AppConfig = {
     DETAILS_FOR_SEMESTER : 'Course Details',
     SEMESTER_CREDITS_SCREEN : 'Sem Credit Points',
     CATEGORY_CREDITS : 'Category Credit Points',
-
-
-
+    EXAM_APPLICATION_DEATILS_SCREEN : 'Exam Application Details',
 
     PROFILE : 'Profile',
     EVENT_STACK: {
@@ -152,7 +153,7 @@ const AppConfig = {
       NAME: 'AttendanceScreen',
     },
   },
-  VERSION_CODE : '10', //change version code for app upadte
+  VERSION_CODE : '12', //change version code for app upadte
   
   //API_URL: 'http://106.51.127.215:8090/api/AppDetailsBal/', //testing
   //API_URL: 'http://202.21.35.131:8091/api/AppDetailsBal/', //live testing db
