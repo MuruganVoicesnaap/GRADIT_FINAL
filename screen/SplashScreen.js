@@ -23,7 +23,7 @@ const SplashScreen = () => {
       </View>
       <View style={styles.textPlace}>
         <Text style={styles.version}>Version </Text>
-        <Text style={styles.versionValue}>2.1</Text>
+        <Text style={styles.versionValue}>2.2</Text>
       </View>
     </View>
   );

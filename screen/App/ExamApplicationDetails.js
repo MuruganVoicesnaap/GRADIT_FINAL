@@ -92,7 +92,7 @@ const ExamApplicationDetails = ({ getDetails, state, navigation }) => {
 
                         <View style={{ flexDirection: 'row', marginTop: 10 }}>
 
-                            <Text style={styles.textStyle}>Amount
+                            <Text style={styles.textStyle}>Fee Amount
 
                             </Text>
 
@@ -131,7 +131,7 @@ const ExamApplicationDetails = ({ getDetails, state, navigation }) => {
               style={styles.icon}
             />
           </TouchableOpacity>
-          <Text style={styles.text}>Exam application details</Text>
+          <Text style={styles.text}>Exam Application Details</Text>
         </View>
 
         <ScrollView stickyHeaderIndices={[1]}>
