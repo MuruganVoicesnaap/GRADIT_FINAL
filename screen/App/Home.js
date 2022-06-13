@@ -244,6 +244,7 @@ const Home = ({
         console.log("versionCheck_date",json.data[0])
         setData(json.data[0]);
         setLoadTime(false);
+        isValidVersion(json.data[0],true)
       })
       .catch(error => console.error(error));
     setLoadTime(false);
@@ -251,6 +252,7 @@ const Home = ({
   const isValidVersion = (data, validate) => {
     console.log(typeof data, 'hhhh');
     const playStoreUrl = data?.playstorelink;
+  
     if (
       data.isversionupdateavailable === Number(appCurrentVersion) &&
       data.isforceupdaterequired === Number(appCurrentVersion)
@@ -271,7 +273,6 @@ const Home = ({
       Alert.alert(data?.versionalerttitle, data?.versionalertcontent, [
         {
           text: 'LATER',
-          onPress: () => checkNavigate(validate),
           style: 'cancel',
         },
         {

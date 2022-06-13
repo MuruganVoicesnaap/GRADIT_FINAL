@@ -153,7 +153,7 @@ const AppConfig = {
       NAME: 'AttendanceScreen',
     },
   },
-  VERSION_CODE : '12', //change version code for app upadte
+  VERSION_CODE : '13', //change version code for app upadte
   
   //API_URL: 'http://106.51.127.215:8090/api/AppDetailsBal/', //testing
   //API_URL: 'http://202.21.35.131:8091/api/AppDetailsBal/', //live testing db
