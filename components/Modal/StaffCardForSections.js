@@ -18,15 +18,18 @@ import triggerSimpleAjax from "../../context/Helper/httpHelper";
 import { Constants, FONT, ICON } from "../../constants/constants";
 import Icons from "react-native-vector-icons/MaterialIcons";
 import { Alert } from "react-native";
-
-import Card from "../Card/card";
+import DropDownPicker from "react-native-dropdown-picker";
 import StudentYearModal from "../AddReceipients/StudentYearModal";
-import YearSection from "../AddReceipients/YearSection"
+import YearSection from "../AddReceipients/YearSection";
 import CheckedIcon from "react-native-vector-icons/AntDesign";
 import UncheckedIcon from "react-native-vector-icons/MaterialIcons";
 import { ExternalStorageDirectoryPath } from "react-native-fs";
+import { getSubjectDetails } from "../../redux/actions/getSubjectDetailsForSem";
+import AppConfig from "../../redux/app-config";
+import { connect } from "react-redux";
 
 const StaffCardForSections = ({
+  memberid,
   visible,
   collegeid,
   data,
@@ -42,7 +45,7 @@ const StaffCardForSections = ({
   const [ids, setIds] = useState([]);
 
   const [Studentshow, setStudentShow] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false);
   const [selectedSpecificSectionID, setSelectedSpecSectionID] = useState("");
   const [selectedSection, setSelectedSection] = useState([]);
   const [selectedStudents, setSelectedStudents] = useState([]);
@@ -50,15 +53,28 @@ const StaffCardForSections = ({
   const [SelectedSectionId, setSelectedSectionID] = useState("");
   const [SelectedYearID, setSelectedYearID] = useState("");
   const [SelectedCourseId, setSelectedCourseID] = useState("");
-  const [selectedStudentTextModal, setSelectedStudentTextModal] = useState(false)
+  const [selectedStudentTextModal, setSelectedStudentTextModal] = useState(
+    false
+  );
 
-  const [visibleSend, setSendVisible] = useState(false)
+  const [SelecetedSubjectType, setSelectedSubjectType] = useState("");
+
+  const [semOpen, setSemOpen] = useState(false);
+  const [type, setType] = useState("Subject");
+  const [semesterloading, setsemesterLoading] = useState(false);
+  //const [selectedSectionss, setSelectedSectionss] = useState([]);
+
+  const [subjectData, setSubjectData] = useState([]);
+  const category = [
+    { name: "Subject", id: "1" },
+    { name: "Tutor", id: "2" },
+  ];
+  const [visibleSend, setSendVisible] = useState(false);
 
   var selectedItems = [];
-  var courseId = '';
-  var sectionId = '';
-  var yearId = '';
-
+  var courseId = "";
+  var sectionId = "";
+  var yearId = "";
 
   useFocusEffect(
     React.useCallback(() => {
@@ -72,26 +88,97 @@ const StaffCardForSections = ({
     }
   }, [studentListVisiable, currentItem]);
 
+  useEffect(() => {
+    console.log("subject type", type);
+    if (type == "Tutor") {
+      GetClassListForTutor();
+    } else {
+      getSubjectList();
+    }
+  }, [type]);
 
+  const getSubjectList = () => {
+    const request = {
+      staffid: memberid,
+      collegeid: collegeid,
+    };
+    console.log("request_staff_card", request);
+
+    triggerSimpleAjax(
+      `${AppConfig.API_URL}${AppConfig.API.GET_SUBJECT_LIST}`,
+      "POST",
+      false,
+      request,
+      (result) => {
+        const { Status, Message, data } = result;
+        console.log("staff_response", result);
+        if (Status === 1) {
+          setStudentShow(true);
+          setSubjectData(data);
+        } else {
+          setSubjectData([]);
+          setStudentShow(false);
+          Alert.alert(Message);
+        }
+      },
+      (result) => {}
+    );
+  };
+
+  const GetClassListForTutor = () => {
+    const request = {
+      staffid: memberid,
+      collegeid: collegeid,
+    };
+    console.log("request_staff_card", request);
+
+    triggerSimpleAjax(
+      `${AppConfig.API_URL}${AppConfig.API.GET_TUTOR_SUBJECT_LIST}`,
+      "POST",
+      false,
+      request,
+      (result) => {
+        const { Status, Message, data } = result;
+        console.log("staff_response", result);
+        if (Status === 1) {
+          setSubjectData(data);
+          setStudentShow(true);
+
+        } else {
+          setSubjectData([]);
+          setStudentShow(false);
+          Alert.alert(Message);
+        }
+      },
+      (result) => {}
+    );
+  };
 
   const selectedItem = (item) => {
     const newIds = [...ids];
-    const index = newIds.indexOf(item.sectionid);
+    //const index = newIds.indexOf(item.sectionid);
+    const index = newIds.indexOf(item);
 
     console.log("index", JSON.stringify(index));
 
     if (index > -1) {
       newIds.splice(index, 1);
       console.log("if", JSON.stringify(newIds));
-
     } else {
-      newIds.push(item.sectionid);
-      console.log("else", JSON.stringify(newIds));
+      //newIds.push(item.sectionid);
+      newIds.push(item);
 
+      console.log("else", JSON.stringify(newIds));
     }
     setIds(newIds);
-    setSelectedSection(newIds);
-    selectedItems = newIds;
+
+    var temp = [];
+    for (let i = 0; i < newIds.length; i++) {
+      temp.push(newIds[i].sectionid);
+    }
+    setSelectedSection(temp);
+    console.log("selectedSectionss", temp.length);
+    selectedItems = temp;
     console.log("newIds", JSON.stringify(newIds));
 
     if (selectedItems.length == 1) {
@@ -104,59 +191,35 @@ const StaffCardForSections = ({
       setSelectedYearID(yearId);
       setSelectedCourseID(courseId);
       setSelectedSectionID(sectionId);
+
       console.log("sectionID", SelectedSectionId);
       console.log("courseId", SelectedCourseId);
-
     }
 
     if (selectedItems.length > 1) {
       setStudentShow(false);
-      setSelectedStudentTextModal(false)
+      setSelectedStudentTextModal(false);
     } else {
       setStudentShow(true);
-      setSelectedStudentTextModal(false)
-
+      setSelectedStudentTextModal(false);
     }
 
     if (selectedItems.length > 0) {
-      setSendVisible(true)
+      setSendVisible(true);
+    } else {
+      setSendVisible(false);
     }
-    else {
-      setSendVisible(false)
-    }
-
-
   };
-
-  // useEffect(() => {
-  //   if (selectedStudents.length > 0) {
-
-  //     setSelectedStudentTextModal(true)
-  //     setSubmitValue({
-  //       ...defaultValue,
-  //       // course_id: coursevalue,
-  //       studentid: selectedStudents,
-  //       selectedCATEGORY: "SpecificStudents",
-  //     });
-  //   } else {
-  //     setSelectedStudentTextModal(false)
-
-  //   }
-  //   console.log("studentValue", selectedStudents);
-  // }, [selectedStudents]);
 
   const renderItem = ({ item }) => {
     return (
-
       <>
         <View style={styles.CheckStyles}>
-
           <TouchableOpacity
             style={styles.container}
             onPress={() => selectedItem(item)}
           >
-
-            {ids.includes(item.sectionid) ? (
+            {ids.includes(item) ? (
               <CheckedIcon
                 name="checkcircle"
                 color={Constants.GREEN001}
@@ -180,20 +243,17 @@ const StaffCardForSections = ({
             }}
           />
         </View>
-
       </>
     );
   };
 
-
-
+  const closeStudentModel = () => {
+    setModalVisible(!modalVisible);
+  };
 
   return (
-
     <SafeAreaView>
       <Portal>
-
-
         <Modal
           visible={visible}
           onRequestClose={onClose}
@@ -202,67 +262,105 @@ const StaffCardForSections = ({
             { padding: showSpecific !== null ? 0 : 12 },
           ]}
         >
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ fontFamily: FONT.primaryBold, fontSize: 10, flex: 1 }}>Add Recipients</Text>
-
-            <View style={{ flexDirection: 'column', flex: 1, alignItems: 'flex-end' }}>
-
-              <TouchableOpacity
-                style={styles.editButtonView}
-                onPress={onClose}
+          <View style={{ flexDirection: "column" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text
+                style={{ fontFamily: FONT.primaryBold, fontSize: 10, flex: 1 }}
               >
-                <Text style={{ fontSize: 15, color: Constants.WHITE_COLOR }}>CANCEL</Text>
-              </TouchableOpacity>
+                Add Recipients
+              </Text>
 
-              {visibleSend ?
-
-                (<TouchableOpacity
+              <View
+                style={{
+                  flexDirection: "column",
+                  flex: 1,
+                  alignItems: "flex-end",
+                }}
+              >
+                <TouchableOpacity
                   style={styles.editButtonView}
-                  onPress={ ()=>  onSelect(data, false, selectedSection)}
+                  onPress={onClose}
                 >
-                  <Text style={{ fontSize: 15, color: Constants.WHITE_COLOR }}>SEND</Text>
-                </TouchableOpacity>) : null
+                  <Text style={{ fontSize: 15, color: Constants.WHITE_COLOR }}>
+                    CANCEL
+                  </Text>
+                </TouchableOpacity>
 
-              }
-
+                {visibleSend ? (
+                  <TouchableOpacity
+                    style={styles.editButtonView}
+                    onPress={() => onSelect(data, true, selectedSection, type)}
+                  >
+                    <Text
+                      style={{ fontSize: 15, color: Constants.WHITE_COLOR }}
+                    >
+                      SEND
+                    </Text>
+                  </TouchableOpacity>
+                ) : null}
+              </View>
             </View>
+
+            {!modalVisible ? (
+              <View style={{ flexDirection: "column" }}>
+                <Text style={{ marginLeft: 15 }}>Select Subject/Tutor</Text>
+                <DropDownPicker
+                  placeholder={"Subject"}
+                  open={semOpen}
+                  value={type}
+                  items={category?.map((item) => ({
+                    label: item.name,
+                    value: item.name,
+                  }))}
+                  setOpen={setSemOpen}
+                  setValue={(x) => {
+                    setType(x);
+                    setIds([]);
+                  }}
+                  loading={semesterloading}
+                  containerProps={{
+                    height: semOpen ? 150 : undefined,
+                  }}
+                  containerStyle={styles.containerStyle}
+                  dropDownContainerStyle={{ margin: 15 }}
+                  listMessageContainerStyle={{ margin: 15, marginBottom: 0 }}
+                  listMode="SCROLLVIEW"
+                  ListEmptyComponent={({ message }) => (
+                    <Text style={{ alignSelf: "center", textAlign: "center" }}>
+                      No Data found
+                    </Text>
+                  )}
+                />
+              </View>
+            ) : null}
           </View>
 
           {selectedStudentTextModal ? (
-            <Button
-              style={styles.specificButton}
-
-            >
+            <Button style={styles.specificButton}>
               <Text style={[styles.actionButtonText, { color: "#1B82E1" }]}>
-                {selectedStudents.length}  Student has been selected</Text>
+                {selectedStudents.length} Student has been selected
+              </Text>
             </Button>
           ) : null}
 
-          <SafeAreaView >
-
-
+          <SafeAreaView>
             <FlatList
-              data={data}
+              data={subjectData}
               renderItem={renderItem}
               // keyExtractor={item => item.id}
               keyExtractor={(item, index) => item + index}
-
             />
           </SafeAreaView>
-
 
           {Studentshow ? (
             <Button
               style={styles.specificButton}
               onPress={() => {
-
                 if (selectedSection.length < 1) {
                   Alert.alert("Kindly Select One Section");
                 } else {
@@ -276,16 +374,12 @@ const StaffCardForSections = ({
             </Button>
           ) : null}
 
-
-
-
           <Modal
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-              setModalVisible(!modalVisible);
+              closeStudentModel();
             }}
-
           >
             <View style={styles.centeredView}>
               <View style={[styles.modalView, { padding: 10 }]}>
@@ -294,15 +388,15 @@ const StaffCardForSections = ({
                   courseid={SelectedCourseId}
                   sectionid={SelectedSectionId}
                   yearid={SelectedYearID}
-                  courseName=''
+                  subjecttype={type}
+                  courseName=""
                   onCancel={() => {
                     setModalVisible(!modalVisible);
-                    setStudentShow(false);
-
+                    setStudentShow(true);
                   }}
                   onSend={(selectStudents) => {
                     setModalVisible(!modalVisible);
-                    setStudentShow(false);
+                    setStudentShow(true);
                     setSelectedStudents(selectStudents);
                     onSelect(data, false, selectStudents);
 
@@ -317,21 +411,28 @@ const StaffCardForSections = ({
             </View>
           </Modal>
         </Modal>
-
       </Portal>
-  </SafeAreaView>
-
+    </SafeAreaView>
   );
 };
 
-export default StaffCardForSections;
+const mapStatetoProps = ({ app }) => ({
+  memberid: app?.maindata?.memberid,
+});
+
+export default connect(mapStatetoProps, null)(StaffCardForSections);
+
+//export default StaffCardForSections;
 
 const styles = StyleSheet.create({
   modalContainerStyle: {
     backgroundColor: "white",
     marginHorizontal: 20,
     borderRadius: 8,
-    maxHeight: "120%",
+    flex: 1,
+    justifyContent: "flex-start",
+    marginBottom: 100,
+    // maxHeight: "120%",
   },
   noData: {
     height: 70,
@@ -437,8 +538,7 @@ const styles = StyleSheet.create({
   },
   ModalStyle: {
     flex: 1,
-    alignItems: 'center',
-
+    alignItems: "center",
   },
 
   card: {
@@ -520,8 +620,8 @@ const styles = StyleSheet.create({
     color: Constants.DARK_COLOR,
   },
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     margin: 10,
   },
 
@@ -533,10 +633,13 @@ const styles = StyleSheet.create({
   text: {
     marginHorizontal: 5,
     marginVertical: 3,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     alignItems: "flex-start",
     marginBottom: 5,
     fontSize: Constants.FONT_FULL_LOW,
     fontFamily: FONT.primaryRegular,
+  },
+  containerStyle: {
+    padding: 15,
   },
 });

@@ -75,8 +75,12 @@ const AddMessage = ({
   const [modalVisibleForSpecific, setModalVisibleForSpecific] = useState(false);
   const [specificViewReview, setSpecificViewReview] = useState(false);
 
+  const [subjectType, setSubjectType] = useState('Subject');
+
+
   useEffect(() => {
-    getSubjectList();
+    //console.log("Subkect_type_add",subjectType)
+    //getSubjectList();
   }, []);
 
   const [TAREGTS, setTargetsValueInitial] = useState([]);
@@ -151,6 +155,7 @@ const AddMessage = ({
       staffid: memberid,
       collegeid: collegeId,
     };
+    console.log("com_request",request)
 
     triggerSimpleAjax(
       `${AppConfig.API_URL}${AppConfig.API.GET_SUBJECT_LIST}`,
@@ -158,9 +163,13 @@ const AddMessage = ({
       false,
       request,
       (result) => {
-        const { Status, data } = result;
+        const { Status,Message, data } = result;
+        console.log("com_response",result)
         if (Status === 1) {
           setSubjectYearData(data);
+        }
+        else{
+          Alert.alert(Message)
         }
       },
       (result) => {}
@@ -214,7 +223,8 @@ const AddMessage = ({
         onPress: () => null,
         style: "cancel",
       },
-      { text: "Ok", onPress: () => onConfirm() },
+       { text: "Ok", onPress: () => onConfirm() },
+
     ]);
     return true;
   };
@@ -253,6 +263,8 @@ const AddMessage = ({
       addTextCommunication({
         request,
         isEntireCollege: receiverTypeId === "1",
+        subjectType: subjectType,
+        
       })
         .then((result) => {
           console.log(result, "message");
@@ -327,6 +339,8 @@ const AddMessage = ({
             />
           </ScrollView>
           <InitialCategory
+            onSubject={(x) =>{setSubjectType(x)}}
+
             visible={modalVisible}
             onCancel={toggleAddRecipentModal}
             goBack={goBack}
@@ -475,7 +489,7 @@ const AddMessage = ({
               })
             }
 
-            onSelect={(item, isEntire, selectStudents = []) => {
+            onSelect={(item, isEntire, selectStudents = [],subject_type) => {
               console.log('OnSelectItem', isEntire, selectStudents);
               hideSubjectsModal();
               setCurrentItem(item);
@@ -485,8 +499,12 @@ const AddMessage = ({
               setReceiverKind(
                 isEntire ? 'Entire Section' : 'Specific Students',
               );
-              setReceiverList(isEntire ? [item.sectionid] : selectStudents);
+             // setReceiverList(isEntire ? [item.sectionid] : selectStudents);
+              setReceiverList(selectStudents);
+
               setSpecificViewReview(isEntire ? false : true);
+
+              setSubjectType(subject_type)
             }}
            
           />

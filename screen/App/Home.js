@@ -331,7 +331,9 @@ const Home = ({
         ? 'Staff'
         : item.priority === 'p4'
         ? 'Student'
-        : 'Parent';
+        :item.priority === 'p5' 
+        ?'Parent'
+        :'Non'
 
     return (
 

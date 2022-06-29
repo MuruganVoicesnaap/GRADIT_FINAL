@@ -96,8 +96,11 @@ const AddEvents = ({
   const hideSubjectsModal = () => setModalVisibleForSpecific(false);
   const [modalVisibleForSpecific, setModalVisibleForSpecific] = useState(false);
   const [specificViewReview, setSpecificViewReview] = useState(false);
+
+  const [subjectType, setSubjectType] = useState('Subject');
+
   useEffect(() => {
-    getSubjectList();
+   // getSubjectList();
   }, []);
 
   const getSubjectList = () => {
@@ -315,6 +318,7 @@ const AddEvents = ({
         ),
         Callertype: priority,
         processtype: route?.params?.Eventdata ? "edit" : "add",
+        subjectType: subjectType,
       })
         .then((result) => {
           // console.log(result, 'message');
@@ -467,6 +471,8 @@ const AddEvents = ({
             fontFamily={FONT.primaryRegular}
           />
           <InitialCategory
+            onSubject={(subjectType) =>{setSubjectType(subjectType)}}
+
             visible={modalVisible}
             onCancel={toggleAddRecipentModal}
             goBack={goBack}
@@ -622,16 +628,20 @@ const AddEvents = ({
                 // setSpecificViewReview(false);
               })
             }
-            onSelect={(item, isEntire, selectStudents = []) => {
+            onSelect={(item, isEntire, selectStudents = [],subject_type) => {
               console.log(item, isEntire, selectStudents);
               hideSubjectsModal();
               setCurrentItem(item);
               setStudnetListVisiable(false);
               setStudentList(isEntire ? null : selectStudents);
               setReceiverTypeId(isEntire ? 5 : 7);
-              setReceiverKind(isEntire ? "Entire Section" : "Specific Section");
-              setReceiverList(isEntire ? [item.sectionid] : selectStudents);
+              setReceiverKind(isEntire ? "Entire Section" : "Specific Students");
+              //setReceiverList(isEntire ? [item.sectionid] : selectStudents);
+              setReceiverList(selectStudents);
+
               setSpecificViewReview(false);
+              setSubjectType(subject_type)
+
             }}
           />
           <View style={{ padding: 5 }}>

@@ -82,6 +82,9 @@ const AddVoice = ({
   const [specificViewReview, setSpecificViewReview] = useState(false);
   const [nextGone, setNextGone] = useState(false);
 
+  const [subjectType, setSubjectType] = useState('Subject');
+
+
   const [TAREGTS, setTargetsValueInitial] = useState([]);
   const [TAREGTS_VALUE, setTargetsValue] = useState([]);
   const ENTIRETAREGTS = [
@@ -193,7 +196,7 @@ const AddVoice = ({
   };
 
   useEffect(() => {
-    getSubjectList();
+   // getSubjectList();
     onStopPlay();
     return async () => {
       await audioRecorderPlayerRef.stopRecorder();
@@ -338,6 +341,7 @@ const AddVoice = ({
         voiceFile: file,
         fileDuration: recordTime,
         isEntireCollege: receiverTypeId === "1",
+        subjectType: subjectType,
       })
         .then((result) => {
           console.log(result, result.Message, "voice");
@@ -456,6 +460,8 @@ const AddVoice = ({
                 placeholderTextColor={Constants.GREY000}
               />
               <InitialCategory
+               onSubject={(subjectType) =>{setSubjectType(subjectType)}}
+
                 visible={modalVisible}
                 onCancel={toggleAddRecipentModal}
                 goBack={goBack}
@@ -613,7 +619,7 @@ const AddVoice = ({
                     // setSpecificViewReview(false);
                   })
                 }
-                onSelect={(item, isEntire, selectStudents = []) => {
+                onSelect={(item, isEntire, selectStudents = [],subject_type) => {
                   console.log(item, isEntire, selectStudents);
                   hideSubjectsModal();
                   setCurrentItem(item);
@@ -621,10 +627,15 @@ const AddVoice = ({
                   setStudentList(isEntire ? null : selectStudents);
                   setReceiverTypeId(isEntire ? 5 : 7);
                   setReceiverKind(
-                    isEntire ? "Entire Section" : "Specific Section"
+                    isEntire ? "Entire Section" : "Specific Students"
                   );
-                  setReceiverList(isEntire ? [item.sectionid] : selectStudents);
+                 // setReceiverList(isEntire ? [item.sectionid] : selectStudents);
+                  setReceiverList(selectStudents);
+
                   setSpecificViewReview(false);
+
+                  setSubjectType(subject_type)
+
                 }}
               />
               <View style={{ padding: 5 }}>

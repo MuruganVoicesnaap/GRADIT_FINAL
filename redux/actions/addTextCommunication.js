@@ -6,6 +6,7 @@ const {API_URL, API} = AppConfig;
 export const addTextCommunication = ({
   request = {},
   isEntireCollege = true,
+  subjectType,
 }) => {
   const req = {
     filetype: 1,
@@ -13,7 +14,7 @@ export const addTextCommunication = ({
   };
   const url = isEntireCollege
     ? API.ADD_TEXT_COMMUNICATION_ENTIRE_COLLEGE
-    : API.ADD_TEXT_COMMUNICATION_PARTICULAR;
+    : subjectType == 'Subject'? API.ADD_TEXT_COMMUNICATION_PARTICULAR : API.ADD_TEXT_COMMUNICATION_PARTICULAR_TUTOR;
   return new Promise((resolve, reject) =>
     triggerSimpleAjax(
       `${API_URL}${url}`,

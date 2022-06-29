@@ -463,6 +463,8 @@ const YearSectionSelect = ({
               courseid={coursevalue}
               sectionid={selectedSpecificSectionID}
               yearid={SelectedYearID}
+              subjecttype={''}
+x
               courseName=''
               onCancel={() => {
                 setModalVisible(!modalVisible);

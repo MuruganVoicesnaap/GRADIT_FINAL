@@ -8,6 +8,7 @@ export const addVoiceCommunication = ({
   voiceFile = '',
   fileDuration,
   isEntireCollege = true,
+  subjectType,
 }) => {
   const fileName = voiceFile ? voiceFile.split('/').slice(-1).pop() : '';
   const [mm, sec, ms] = fileDuration.split(':');
@@ -16,7 +17,7 @@ export const addVoiceCommunication = ({
   );
   const url = isEntireCollege
     ? API.ADD_VOICE_COMMUNICATION_ENTIRE_COLLEGE
-    : API.ADD_VOICE_COMMUNICATION_PARTICULAR;
+    : subjectType == 'Subject'? API.ADD_VOICE_COMMUNICATION_PARTICULAR : API.ADD_VOICE_COMMUNICATION_PARTICULAR_TUTOR;
   const req = {
     file: {
       uri: voiceFile,

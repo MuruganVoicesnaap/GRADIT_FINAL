@@ -103,8 +103,11 @@ const AddCircular = ({
   const [submitClose, setSubmitClose] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
 
+  const [subjectType, setSubjectType] = useState('Subject');
+
+
   useEffect(() => {
-    getSubjectList();
+   // getSubjectList();
   }, []);
 
   const getSubjectList = () => {
@@ -451,6 +454,7 @@ const AddCircular = ({
     addCircular({
       request,
       isEntireCollege: receiverTypeId === "1",
+      subjectType: subjectType,
     })
       .then((result) => {
         console.log(result, "message");
@@ -618,6 +622,8 @@ const AddCircular = ({
             </>
           )}
           <InitialCategory
+            onSubject={(subjectType) =>{setSubjectType(subjectType)}}
+
             visible={modalVisible}
             onCancel={toggleAddRecipentModal}
             goBack={goBack}
@@ -773,16 +779,20 @@ const AddCircular = ({
                 // setSpecificViewReview(false);
               })
             }
-            onSelect={(item, isEntire, selectStudents = []) => {
+            onSelect={(item, isEntire, selectStudents = [],subject_type) => {
               console.log(item, isEntire, selectStudents);
               hideSubjectsModal();
               setCurrentItem(item);
               setStudnetListVisiable(false);
               setStudentList(isEntire ? null : selectStudents);
               setReceiverTypeId(isEntire ? 5 : 7);
-              setReceiverKind(isEntire ? "Entire Section" : "Specific Section");
-              setReceiverList(isEntire ? [item.sectionid] : selectStudents);
+              setReceiverKind(isEntire ? "Entire Section" : "Specific Students");
+             // setReceiverList(isEntire ? [item.sectionid] : selectStudents);
+              setReceiverList(selectStudents);
+
               setSpecificViewReview(false);
+              setSubjectType(subject_type)
+
             }}
           />
           <View style={{ padding: 5 }}>

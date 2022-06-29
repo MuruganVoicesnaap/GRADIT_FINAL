@@ -9,13 +9,19 @@ const AppConfig = {
     VERSION_CHECK: 'VersionCheck',
     SENT_VIDEO_ENTIRE_COLLEGE: 'SendVideoToEntireCollege',
     SENT_VIDEO_PARTICULAR: 'SendVideoToParticularType',
+    SENT_VIDEO_PARTICULAR_TUTOR: 'SendVideoToParticularTypeFromTutor',
+
     VIDEO_CONTENT_RESTRICTION: 'GetVideoContentRestriction',
     NOTICEBOARD_ENTIRE_COLLEGE_ADD: 'ManageNoticeBoard',
+    NOTICEBOARD_ENTIRE_COLLEGE_ADD_TUTOR: 'ManageNoticeBoardFromTutor',
+
     NOTICEBOARD_DATA: 'GetNoticeListByType',
     DASHBOARD_DATA: 'DashboardApi',
     CIRCULAR_DATA: 'GetCircularListByType',
     ADD_CIRCULAR: 'SendImageOrPDFToParticularType',
     ADD_CIRCULAR_PARTICULAR_TYPE: 'SendImageOrPDFToParticularTypeWithCloudURL',
+    ADD_CIRCULAR_PARTICULAR_TYPE_TUTOR: 'SendImageOrPDFToParticularTypeWithCloudURLFromTutor',
+
     ADD_CIRCULAR_ENTIRE_COLLEGE: 'SendImageOrPDFToEntireCollegeWithCloudURL',
     DELETE_CIRCULAR: 'DeleteCircular',
     FACULTY_LIST_OTHER: 'FacultyList',
@@ -44,11 +50,17 @@ const AppConfig = {
     SUBJECT_SECTION_WISE: 'getsectionwisesubjectlist',
     GET_EVENTS_LIST: 'GetEventListByType',
     MANAGE_EVENTS: 'ManageEvents',
+    MANAGE_EVENTS_TUTOR: 'ManageEventsFromTutor',
+
     ADD_EVENT_IMAGES: 'AddeventphotosWithCloudURL',
     ADD_VOICE_COMMUNICATION_ENTIRE_COLLEGE: 'SendFileToEntireCollege',
     ADD_VOICE_COMMUNICATION_PARTICULAR: 'SendFileToParticularType',
+    ADD_VOICE_COMMUNICATION_PARTICULAR_TUTOR: 'SendFileToParticularTypeFromTutor',
+
     ADD_TEXT_COMMUNICATION_ENTIRE_COLLEGE: 'SendSMSToEntireCollege',
     ADD_TEXT_COMMUNICATION_PARTICULAR: 'SendSMSToParticularType',
+    ADD_TEXT_COMMUNICATION_PARTICULAR_TUTOR: 'SendSMSToParticularTypeFromTutor',
+
     DELETE_TEXT: 'DeleteText',
     COMMUNICATION_DATA: 'GetCommunicationMessageBytype',
     GET_STAFF_DETAILS: 'GetstaffdetailsForApp',
@@ -71,9 +83,15 @@ const AppConfig = {
     GET_APPROVE_LEAVE: 'ManageLeaveRequest',
     GET_ASSIGNMENT_LIST: 'GetAssignmentListByType',
     GET_SUBJECT_LIST: 'GetSubjectListforparticularstaff',
+    GET_TUTOR_SUBJECT_LIST: 'GetClassListForTutor',
+
     POST_ASSIGNMENT: 'ManageAssignmentForText',
     POST_ASSIGNMENT_WITH_ATTACHMENT: 'ManageAssignmentWithCloudURL',
     GET_STUDENT_LIST: 'GetStudentListForApp',
+
+    GET_MENTOR_STUDENT_LIST: 'GetMentorstudentListforapp',
+
+
     SUBMIT_ASSIGNMENT: 'SubmitAssignmentFromAppWithCloudURL',
     VIEW_ASSIGNMENT: 'ViewAssignmentContent',
     DELETE_ASSIGNMENT: 'AssignmentDelete',

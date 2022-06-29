@@ -41,7 +41,7 @@ const ChooseRecipient = ({visible, onSelect, onCancel}) => {
               }}
             >
               <Text style={[styles.actionButtonText, {color: '#1B82E1'}]}>
-                Other Department
+                Your Classes
               </Text>
             </Button>
           </View>

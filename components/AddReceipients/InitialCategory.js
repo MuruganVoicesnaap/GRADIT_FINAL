@@ -280,6 +280,7 @@ const defaultValue = {
 };
 
 const InitialCategory = ({
+  onSubject,
   visible,
   collegeId,
   memberid,
@@ -296,6 +297,8 @@ const InitialCategory = ({
   const [selectedAllGroup, setSelectedAllGroup] = useState(false);
   const [selectedAllCourse, setSelectedAllCourse] = useState(false);
   const [selectedAllHodCourse, setSelectedAllHodCourse] = useState(false);
+
+  const [subjectType, setSubjectType] = useState("Subject");
 
   const [submitValue, setSubmitValue] = useState({});
   const [openContainerHeight, setOpenContainerHeight] = useState(false);
@@ -520,7 +523,7 @@ const InitialCategory = ({
     console.log("HODCoursevalue", hodCoursevalue);
   }, [hodCoursevalue]);
   const checkLastValue = (value) => {
-    console.log('testValue',value)
+    console.log("testValue", value);
     if (value?.length) {
       let localCourseValue = [...value];
       if (value?.length !== 1 && coursevalue?.length > 1) {
@@ -983,6 +986,7 @@ const InitialCategory = ({
           {categoryValue !== "EntireCollege" &&
           categoryValue === "Your Classes" ? (
             <YourClassesSelection
+              onSubject={onSubject}
               priority={priority}
               Divisionid={Divisionid}
               collegeId={collegeId}
@@ -1030,6 +1034,7 @@ const InitialCategory = ({
                 <Button
                   style={styles.submitButton}
                   onPress={() => {
+                    onSubject(subjectType);
                     categoryValue === "Division" || categoryValue === "Course"
                       ? onSumbitValue()
                       : onSubmitGroup();

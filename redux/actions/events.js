@@ -22,9 +22,11 @@ export const eventsdData = ({request, isUpcomingEvents = true}) => {
 };
 
 export const addEvent = req => {
+  console.log("Sub_type",req.subjectType)
+  const END_POINT = req.subjectType == 'Subject' ? API.MANAGE_EVENTS : API.MANAGE_EVENTS_TUTOR;
   return new Promise((resolve, reject) =>
     triggerSimpleAjax(
-      `${API_URL}${API.MANAGE_EVENTS}`,
+      `${API_URL}${END_POINT}`,
       'POST',
       false,
       req,

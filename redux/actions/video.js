@@ -4,10 +4,12 @@ import AppConfig from '../app-config';
 
 const {API_URL, API} = AppConfig;
 
-export const addVideo = ({request = {}, isEntireCollege = true}) => {
+export const addVideo = ({request = {}, isEntireCollege = true,subjectType}) => {
+
+  console.log('v sub',subjectType)
   const url = isEntireCollege
     ? API.SENT_VIDEO_ENTIRE_COLLEGE
-    : API.SENT_VIDEO_PARTICULAR;
+    : subjectType =='Subject'? API.SENT_VIDEO_PARTICULAR : API.SENT_VIDEO_PARTICULAR_TUTOR;
   return new Promise((res, rej) => {
     triggerSimpleAjax(
       `${API_URL}${url}`,

@@ -4,9 +4,11 @@ import AppConfig from '../app-config';
 const {API_URL, API} = AppConfig;
 
 export const addNoticeApi = req => {
+  console.log('Sub_type',req.subjectType)
+  const END_POINT = req.subjectType == 'Subject' ? API.NOTICEBOARD_ENTIRE_COLLEGE_ADD : API.NOTICEBOARD_ENTIRE_COLLEGE_ADD_TUTOR;
   return new Promise((resolve, reject) =>
     triggerSimpleAjax(
-      `${API_URL}${API.NOTICEBOARD_ENTIRE_COLLEGE_ADD}`,
+      `${API_URL}${END_POINT}`,
       'POST',
       false,
       req,
