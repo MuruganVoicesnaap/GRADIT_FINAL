@@ -105,7 +105,6 @@ const AddCircular = ({
 
   const [subjectType, setSubjectType] = useState('Subject');
 
-
   useEffect(() => {
    // getSubjectList();
   }, []);

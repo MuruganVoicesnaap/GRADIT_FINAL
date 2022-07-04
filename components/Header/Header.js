@@ -357,7 +357,7 @@ const Header = ({
                       ? "Student"
                       : priority === "p5"
                       ?"Parent" 
-                      :"Non"}
+                      :"Non Teaching"}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity

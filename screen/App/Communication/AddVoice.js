@@ -84,6 +84,7 @@ const AddVoice = ({
 
   const [subjectType, setSubjectType] = useState('Subject');
 
+  const [staffTypes, setStaffType] = useState([]);
 
   const [TAREGTS, setTargetsValueInitial] = useState([]);
   const [TAREGTS_VALUE, setTargetsValue] = useState([]);
@@ -560,6 +561,7 @@ const AddVoice = ({
                     setReceiverList(x.groupid);
                     setReceiverTypeId("6");
                     setReceiverKind("Entire Group");
+                    setStaffType(x.stafftypes)
                   } else if (
                     Array.isArray(x.groupid) &&
                     x.selectedCATEGORY === "specificGroup"
@@ -567,6 +569,7 @@ const AddVoice = ({
                     setReceiverList(x.groupid);
                     setReceiverTypeId("6");
                     setReceiverKind("Specific Group");
+                    setStaffType(x.stafftypes)
                   }
                   setSpecificViewReview(false);
                   toggleAddRecipentModal();
@@ -766,7 +769,7 @@ const AddVoice = ({
                         options={
                           receiverKind === "Entire College" ||
                           receiverKind === "Division" ||
-                          // receiverKind === "Group" ||
+                          receiverKind === "Group" && staffTypes.includes('staff') ||
                           // receiverKind === "Specific Section" ||
                           // receiverKind === "Entire Course" ||
                           receiverKind === "Entire Department" ||

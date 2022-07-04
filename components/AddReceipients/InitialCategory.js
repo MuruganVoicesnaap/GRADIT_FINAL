@@ -78,6 +78,7 @@ const getCourseDepartment = (request) => {
 };
 
 const getGroupList = (request) => {
+  console.log("group request", request);
   return new Promise((res, rej) => {
     triggerSimpleAjax(
       `${AppConfig.API_URL}${AppConfig.API.GET_GROUP_List_FOR_App}`,
@@ -87,6 +88,8 @@ const getGroupList = (request) => {
       (data) => {
         const { Status, Message } = data;
         if (Status === 1) {
+          console.log("group response", data);
+
           res(data);
         } else {
           rej(Message || "Something went wrong... Please try again later");
@@ -378,6 +381,8 @@ const InitialCategory = ({
   const [hodCoursevalue, sethodCourseValue] = useState(null);
   const [hodCourseitems, sethodCourseItems] = useState([]);
 
+  const [groupStaffs, setGroupStaffs] = useState([]);
+
   useEffect(() => {
     if (collegeId) {
       setcourseLoading(true);
@@ -482,19 +487,31 @@ const InitialCategory = ({
   useEffect(() => {
     if (groupvalue && groupvalue.includes("all")) {
       const items = groupitems.map((item) => item.groupid);
+      const itemsStaffs = groupitems.map((item) => item.grouptype);
+      itemsStaffs.shift();
       items.shift();
       setSubmitValue({
         ...defaultValue,
         groupid: items,
         selectedCATEGORY: "entireGroup",
+        stafftypes: itemsStaffs,
       });
     }
 
     if (groupvalue && !groupvalue.includes("all")) {
+
+      var staffs = [];
+      for (let i = 0; i < groupitems.length; i++) {
+        if (groupvalue.includes(groupitems[i].groupid)) {
+          staffs.push(groupitems[i].grouptype);
+        }
+      }
       setSubmitValue({
         ...submitValue,
         groupid: groupvalue,
         selectedCATEGORY: "specificGroup",
+        stafftypes: staffs,
+
       });
     }
   }, [groupvalue]);

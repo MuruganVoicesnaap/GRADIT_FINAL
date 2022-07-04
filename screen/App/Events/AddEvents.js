@@ -98,6 +98,7 @@ const AddEvents = ({
   const [specificViewReview, setSpecificViewReview] = useState(false);
 
   const [subjectType, setSubjectType] = useState('Subject');
+  const [staffTypes, setStaffType] = useState([]);
 
   useEffect(() => {
    // getSubjectList();
@@ -571,6 +572,7 @@ const AddEvents = ({
                 setReceiverList(x.groupid);
                 setReceiverTypeId("6");
                 setReceiverKind("Entire Group");
+                setStaffType(x.stafftypes)
               } else if (
                 Array.isArray(x.groupid) &&
                 x.selectedCATEGORY === "specificGroup"
@@ -578,6 +580,7 @@ const AddEvents = ({
                 setReceiverList(x.groupid);
                 setReceiverTypeId("6");
                 setReceiverKind("Specific Group");
+                setStaffType(x.stafftypes)
               }
               setSpecificViewReview(false);
               toggleAddRecipentModal();
@@ -766,7 +769,7 @@ const AddEvents = ({
                     options={
                       receiverKind === "Entire College" ||
                       receiverKind === "Division" ||
-                      // receiverKind === "Group" ||
+                      receiverKind === "Group" && staffTypes.includes('staff') ||
                       // receiverKind === "Specific Section" ||
                       // receiverKind === "Entire Course" ||
                       receiverKind === "Entire Department" ||

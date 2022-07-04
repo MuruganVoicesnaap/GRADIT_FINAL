@@ -86,7 +86,7 @@ const AddNotice = ({
   const [specificViewReview, setSpecificViewReview] = useState(false);
   console.log(isParentEnable, targets);
   const [subjectType, setSubjectType] = useState('Subject');
-
+  const [staffTypes, setStaffType] = useState([]);
 
   useEffect(() => {
     //getSubjectList();
@@ -484,6 +484,7 @@ const AddNotice = ({
                 setReceiverList(x.groupid);
                 setReceiverTypeId("6");
                 setReceiverKind("Entire Group");
+                setStaffType(x.stafftypes)
               } else if (
                 Array.isArray(x.groupid) &&
                 x.selectedCATEGORY === "specificGroup"
@@ -491,6 +492,7 @@ const AddNotice = ({
                 setReceiverList(x.groupid);
                 setReceiverTypeId("6");
                 setReceiverKind("Specific Group");
+                setStaffType(x.stafftypes)
               }
               setSpecificViewReview(false);
               toggleAddRecipentModal();
@@ -688,7 +690,7 @@ const AddNotice = ({
                         options={
                           receiverKind === "Entire College" ||
                           receiverKind === "Division" ||
-                          // receiverKind === "Group" ||
+                          receiverKind === "Group" && staffTypes.includes('staff') ||
                           // receiverKind === "Specific Section" ||
                           // receiverKind === "Entire Course" ||
                           receiverKind === "Entire Department" ||

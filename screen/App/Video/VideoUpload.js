@@ -100,7 +100,7 @@ const VideoUploadScreen = ({
   const [submitClose, setSubmitClose] = useState(false);
   const [modalVisibleForHOD, setModalVisibleForHOD] = useState(false);
   const toggleRecipentModalForHOD = () =>
-    setModalVisibleForHOD((prevState) => !prevState);
+  setModalVisibleForHOD((prevState) => !prevState);
 
   const [studentList, setStudentList] = useState(null);
   const [studentListVisiable, setStudnetListVisiable] = useState(false);
@@ -111,7 +111,7 @@ const VideoUploadScreen = ({
   const [modalVisibleForSpecific, setModalVisibleForSpecific] = useState(false);
   const [specificViewReview, setSpecificViewReview] = useState(false);
   const [subjectType, setSubjectType] = useState('Subject');
-
+  const [staffTypes, setStaffType] = useState([]);
 
   const [localAsset, setLocalAsset] = useState("");
   const [localPlayVideo, setLocalPlayVideo] = useState(false);
@@ -750,6 +750,7 @@ const VideoUploadScreen = ({
                 setReceiverList(x.groupid);
                 setReceiverTypeId("6");
                 setReceiverKind("Group");
+                setStaffType(x.stafftypes)
               } else if (
                 Array.isArray(x.groupid) &&
                 x.selectedCATEGORY === "specificGroup"
@@ -757,6 +758,7 @@ const VideoUploadScreen = ({
                 setReceiverList(x.groupid);
                 setReceiverTypeId("6");
                 setReceiverKind("Group");
+                setStaffType(x.stafftypes)
               }
               setSpecificViewReview(false);
               toggleAddRecipentModal();
@@ -945,7 +947,7 @@ const VideoUploadScreen = ({
                     options={
                       receiverKind === "Entire College" ||
                       receiverKind === "Division" ||
-                      // receiverKind === "Group" ||
+                      receiverKind === "Group" && staffTypes.includes('staff') ||
                       // receiverKind === "Specific Section" ||
                       // receiverKind === "Entire Course" ||
                       receiverKind === "Entire Department" ||

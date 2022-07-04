@@ -77,6 +77,9 @@ const AddMessage = ({
 
   const [subjectType, setSubjectType] = useState('Subject');
 
+  const [staffTypes, setStaffType] = useState([]);
+
+
 
   useEffect(() => {
     //console.log("Subkect_type_add",subjectType)
@@ -439,6 +442,8 @@ const AddMessage = ({
                 setReceiverList(x.groupid);
                 setReceiverTypeId("6");
                 setReceiverKind("Group");
+
+                setStaffType(x.stafftypes)
               } else if (
                 Array.isArray(x.groupid) &&
                 x.selectedCATEGORY === "specificGroup"
@@ -446,6 +451,8 @@ const AddMessage = ({
                 setReceiverList(x.groupid);
                 setReceiverTypeId("6");
                 setReceiverKind("Group");
+                setStaffType(x.stafftypes)
+
               }
               setSpecificViewReview(false);
               toggleAddRecipentModal();
@@ -632,7 +639,7 @@ const AddMessage = ({
                     options={
                       receiverKind === "Entire College" ||
                       receiverKind === "Division" ||
-                      // receiverKind === "Group" ||
+                       receiverKind === "Group" && staffTypes.includes('staff') ||
                       // receiverKind === "Specific Section" ||
                       // receiverKind === "Entire Course" ||
                       receiverKind === "Entire Department" ||
